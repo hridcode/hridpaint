@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>hridPaint</title>
+</head>
+<body>
+    <div id="home-content">
+        <svg id="home-animation" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="screen-center-container"> 
+            <div class="inline-container">
+                <img>
+                <h1 id="title">hridPaint</h1>
+            </div>
+            <div class="project-interaction inline-container">
+                <button id="new-project">New Project</button>
+                <button id="open-project">Open Project</button>
+                <button id="open-image">Open Image</button>
+            </div>
+        </div>
+        <div id="new-project-dialog" class="dialog-box">
+            <div class="dialog-top-bar">
+                <h4>New Project</h4>
+                <button class="close">&times;</button>
+            </div>
+            <div class="dialog-main-content">
+                <div>
+                    <label>Width:</label>
+                    <input id="canvas-width-input" type="number" min="0" step="1" value="600">
+                </div>
+                <div>
+                    <label>Height:</label>
+                    <input id="canvas-height-input" type="number" min="0" step="1" value="600">
+                </div>
+                <label id="canvas-inch-dimensions"></label>
+                <button id="new-project-action" class="dialog-end-button">Create</button>
+            </div>
+        </div>
+    </div>
+    <div id="main-content">
+        <div id="home-bar">
+            <div>
+                <label>File</label>
+                <div class="dropdown">
+                    <p id="save-as">Save as...</p>
+                    <p id="save-project">Save project...</p>
+                </div>
+            </div>
+            <div>
+                <label>Align</label>
+                <div class="dropdown">
+                    <p id="object-left-align">Align all to left...</p>
+                    <p id="object-center-align">Align all to center...</p>
+                    <p id="object-right-align">Align all to right...</p>
+                    <p id="object-top-align">Align all to top...</p>
+                    <p id="object-middle-align">Align all to middle...</p>
+                    <p id="object-bottom-align">Align all to bottom...</p>
+                    <p id="object-dist-h">Distribute horizontally...</p>
+                    <p id="object-dist-v">Distribute vertically...</p>
+                </div>
+            </div>
+            <div>
+                <label style="cursor: pointer;" id="style-select">Style</label>
+            </div>
+        </div>
+        <div id="top-bar">
+            <p id="stroke-label">Stroke:</p>
+            <input id="stroke" type="number" value="1" min="0" step="1">
+            <p id="fill-label">Fill:</p>
+            <input id="fill" type="checkbox">
+            <p id="sides-label">Sides:</p>
+            <input id="sides" type="number" value="4" min="3" step="1">
+            <p id="rect-x-label">Radius X:</p>
+            <input id="rect-x" type="number" value="0" min="0">
+            <p id="rect-y-label">Radius Y:</p>
+            <input id="rect-y" type="number" value="0" min="0">
+            <p id="font-size-label">Font size:</p>
+            <input id="font-size" type="number" value="24" min="0" step="1">
+            <button id="left-align" class="text-align-button text-align-h activated">L</button>
+            <button id="center-align" class="text-align-button text-align-h">C</button>
+            <button id="right-align" class="text-align-button text-align-h">R</button>
+            <button id="top-align" class="text-align-button text-align-v activated">T</button>
+            <button id="middle-align" class="text-align-button text-align-v">M</button>
+            <button id="bottom-align" class="text-align-button text-align-v">B</button>
+        </div>
+        <div id="interaction-bar">
+            <button id="line">L</button>
+            <button id="rect">R</button>
+            <button id="ellipse">E</button>
+            <button id="triangle-scalene">T<sup>S</sup></button>
+            <button id="triangle-isosceles">T<sup>I</sup></button>
+            <button id="polygon-free">P<sup>F</sup></button>
+            <button id="quadratic-curve">C<sup>2</sup></button>
+            <button id="cubic-curve">C<sup>3</sup></button>
+            <button id="text">Tx</button>
+            <input id="primcol" type="color">
+            <button id="switch">Sw</button>
+            <input id="scncol" type="color"> 
+        </div>
+        <div id="main-wrapper">
+            <div id="editor">
+                <svg id="main-canvas" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <defs id="svg-defs"></defs>
+                </svg>
+                <!-- <div id="main-canvas"></div>
+                <canvas id="background-canvas"></canvas>
+                <canvas id="temp-canvas"></canvas>
+                <canvas id="flat-canvas"></canvas>
+                <canvas id="alignment-canvas"></canvas>
+                <div id="canvas-items"></div> -->
+                <div id="canvas-boxes"></div>
+            </div>
+        </div>
+        <div id="right-bar">
+            <h3>Objects</h3>
+            <div id="objects-list"></div>
+        </div>
+        <div id="save-dialog" class="dialog-box">
+            <div class="dialog-top-bar">
+                <h4>Save as</h4>
+                <button id="save-close" class="close">&times;</button>           
+            </div>
+            <div class="dialog-main-content">
+                <div>
+                    <label>Format:</label>
+                    <select id="save-format">
+                        <option value="png">PNG</option>
+                        <option value="jpg">JPG</option>
+                        <option value="webp">WEBP</option>
+                        <option value="svg">SVG</option>
+                        <!--
+                        <option value="bmp">BMP</option>
+                        <option value="ico">ICO</option>
+                        -->
+                    </select>
+                </div>
+                <div>
+                    <label>Quality:</label>
+                    <div style="display: flex; gap: 5px; align-items: center;">
+                        <input type="range" max="1" min="0" step="0.01" value="1" id="save-quality">
+                        <label id="save-percentage">1.00</label>
+                    </div>
+                </div>
+                <div>
+                    <label>Name:</label>
+                    <input type="text" id="save-filename" placeholder="image">
+                </div>
+                <button id="save-action" class="dialog-end-button">Save</button>
+            </div>
+        </div>
+        <div id="save-project-dialog" class="dialog-box">
+            <div class="dialog-top-bar">
+                <h4>Save project file</h4>
+                <button class="close">&times;</button>           
+            </div>
+            <div class="dialog-main-content">
+                <div>
+                    <label>Name:</label>
+                    <input type="text" id="save-proj-filename" placeholder="image">
+                </div>
+                <div>
+                    <label>Description:</label>
+                    <textarea id="save-proj-metadata" placeholder="Enter description here..."></textarea>
+                </div>
+                <button id="save-proj-action" class="dialog-end-button">Save</button>
+            </div>
+        </div>
+        <div id="zoom-box">
+            <button id="zoom-minus">-</button>
+            <p id="zoom-percentage"></p>
+            <button id="zoom-plus">+</button>
+        </div>
+        <div id="color-dialog" class="dialog-box">
+            <div class="dialog-top-bar">
+                <h4>Color picker</h4>
+                <button class="close">&times;</button>           
+            </div>
+            <div class="dialog-tab-select">
+                <div id="rgb-select" class="dialog-tab-button selected-tab">RGB</div>
+                <div id="hsv-select" class="dialog-tab-button">HSV</div>
+                <div id="gradient-select" class="dialog-tab-button">Gradient</div>
+            </div>
+            <div class="dialog-tabs">
+                <div class="dialog-main-content dialog-tab" id="rgb-tab">
+                    <div>
+                        <label>R</label>
+                        <div id="r-slider" class="slider">
+                            <div class="slider-grab"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>G</label>
+                        <div id="g-slider" class="slider">
+                            <div class="slider-grab"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>B</label>
+                        <div id="b-slider" class="slider">
+                            <div class="slider-grab"></div>
+                        </div>
+                    </div>
+                </div>   
+                <div class="dialog-main-content dialog-tab" id="hsv-tab" style="display: none;">
+                    <div>
+                        <label>H</label>
+                        <div id="hue-slider" class="slider">
+                            <div class="slider-grab"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>S</label>
+                        <div id="saturation-slider" class="slider">
+                            <div class="slider-grab"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>V</label>
+                        <div id="value-slider" class="slider">
+                            <div class="slider-grab"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="color-result"></div>
+                <button id="color-action" class="dialog-end-button">Confirm</button>                
+            </div>
+        </div>
+        <div id="object-style-dialog" class="dialog-box">
+            <div class="dialog-top-bar">
+                <h4>Object style</h4>
+                <button class="close">&times;</button>           
+            </div>
+            <div class="dialog-tab-select">
+                <div id="obj-shadow-select" class="dialog-tab-button selected-tab">Shadow</div>
+                <div id="obj-blur-select" class="dialog-tab-button">Blur</div>
+                <div id="obj-lighting-select" class="dialog-tab-button">Lighting</div>
+                <div id="obj-adjust-select" class="dialog-tab-button">Adjust</div>
+                <div id="obj-filter-select" class="dialog-tab-button">Filter</div>
+                <div id="obj-convolve-select" class="dialog-tab-button">Convolve</div>
+                <div id="obj-misc-select" class="dialog-tab-button">Miscellaneous</div>
+            </div>
+            <div class="dialog-tabs">
+                <div class="dialog-main-content dialog-tab" id="obj-shadow-tab">
+                    <div>
+                        <label>Activate:</label>
+                        <input id="obj-shadow-activate" type="checkbox">
+                    </div>
+                    <div>
+                        <label>dX:</label>
+                        <input id="obj-shadow-dx" type="number" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>dY:</label>
+                        <input id="obj-shadow-dy" type="number" min="0" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>StDev:</label>
+                        <input id="obj-shadow-stdev" type="number" min="0" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Flood color:</label>
+                        <input id="obj-shadow-flood-color" type="color">
+                    </div>
+                    <div>
+                        <label>Flood opacity:</label>
+                        <input id="obj-shadow-flood-opacity" type="range" min="0" max="1" step="0.01" value="1">
+                    </div>
+                </div>   
+                <div class="dialog-main-content dialog-tab" id="obj-blur-tab" style="display: none;">
+                    <div>
+                        <label>Activate:</label>
+                        <input id="obj-blur-activate" type="checkbox">
+                    </div>
+                    <div>
+                        <label>StDev:</label>
+                        <input id="obj-blur-stdev" type="number" min="0" min="0" value="0">
+                    </div>
+                </div>
+                <div class="dialog-main-content dialog-tab" id="obj-lighting-tab" style="display: none;">
+                    <div>
+                        <label>Activate:</label>
+                        <input id="obj-lighting-activate" type="checkbox">
+                    </div>
+                    <div>
+                        <label>X:</label>
+                        <input id="obj-lighting-x" type="number" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Y:</label>
+                        <input id="obj-lighting-y" type="number" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Z:</label>
+                        <input id="obj-lighting-z" type="number" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Light color:</label>
+                        <input id="obj-lighting-color" type="color">
+                    </div>
+                </div>                
+            </div>
+            <button id="style-action" class="dialog-end-button">Confirm</button>
+        </div>
+    </div>
+
+    <script src="/static/scripts/setup.js"></script>
+    <script src="/static/scripts/functions.js"></script>
+    <script src="/static/scripts/stretching.js"></script>
+    <script src="/static/scripts/drawing.js"></script>
+    <script src="/static/scripts/zooming.js"></script>
+    <script src="/static/scripts/moving.js"></script>
+    <script src="/static/scripts/selecting.js"></script>
+    <script src="/static/scripts/interaction.js"></script>
+    <script src="/static/scripts/dialog.js"></script>
+    <script src="/static/scripts/color-dialog.js"></script>
+    <script src="/static/scripts/object-styles.js"></script>
+    <script src="/static/scripts/clipboard.js"></script>
+    <script src="/static/scripts/align.js"></script>
+    <script src="/static/scripts/home.js"></script>
+    <script src="/static/scripts/timeline.js"></script>
+    <script src="/static/scripts/saving.js"></script>
+    <script src="/static/scripts/start.js"></script>
+</body>
+</html>
