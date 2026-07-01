@@ -64,6 +64,7 @@ const sides = document.getElementById('sides');
 const fontSize = document.getElementById('font-size');
 const radiusX = document.getElementById('rect-x');
 const radiusY = document.getElementById('rect-y');
+const opacity = document.getElementById('opacity');
 
 const strokeLabel = document.getElementById('stroke-label');
 const fillLabel = document.getElementById('fill-label');
@@ -71,6 +72,7 @@ const sidesLabel = document.getElementById('sides-label');
 const fontSizeLabel = document.getElementById('font-size-label');
 const radiusXLabel = document.getElementById('rect-x-label');
 const radiusYLabel = document.getElementById('rect-y-label');
+const opacityLabel = document.getElementById('opacity-label');
 
 let canvasDragging = false;
 let canvasDragOffset;

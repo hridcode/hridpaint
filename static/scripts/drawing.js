@@ -156,6 +156,7 @@ function updateObject(obj, downX = null, downY = null, upX = null, upY = null) {
             break;
     }
 
+    element?.setAttribute('opacity', obj.opacity);
     element?.setAttribute('object-id', obj.index);
 
     if (!obj.element) return element;
@@ -230,6 +231,7 @@ document.addEventListener('mousemove', (event) => {
     tempObj.fillColor = fill.checked ? scnCol.value : null;
     tempObj.strokeColor = primCol.value;
     tempObj.strokeWidth = stroke.value;
+    tempObj.opacity = opacity.value;
     tempObj.type = mode;
 
     tempObj.fontSize = fontSize.value;
@@ -370,6 +372,7 @@ function finish() {
         newItemProperties.strokeColor = primCol.value;
 
         newItemProperties.fillColor = fill.checked ? scnCol.value : null;
+        newItemProperties.opacity = opacity.value;
 
         if (mode === "text") {
             newItemProperties.fontSize = fontSize.value;
@@ -398,7 +401,7 @@ function finish() {
 
         objects.push(newItemProperties);
 
-        mainCanvas.appendChild(newItemProperties.element);
+        mainCanvas.insertBefore(newItemProperties.element, alignmentLineGroup);
 
         createCanvasBox(newItemProperties);
 

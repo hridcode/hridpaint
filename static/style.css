@@ -581,6 +581,7 @@ button.mode-active:hover {
     width: 50px;
     height: 50px;
     border: 1px solid var(--border-color);
+    background-color: white;
 }
 
 .project-interaction > button {
@@ -628,6 +629,35 @@ button.mode-active:hover {
 
 #zoom-box > button:hover {
     background-color: var(--hover-color);
+}
+
+/* Tooltip */
+
+*:has(> .tooltip) {
+    position: relative;
+}
+
+* > .tooltip {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    right: -5px;
+    font-size: 0.6em;
+    width: fit-content;
+    white-space: nowrap;
+    transition: opacity 0.1s, visibility 0.1s; 
+    transform: translate(100%, -50%);
+    padding: 5px;
+    border: 1px solid var(--accent-color);
+    background-color: var(--background-color);
+}
+
+*:hover > .tooltip {
+    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Misc */

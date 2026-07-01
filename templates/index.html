@@ -11,7 +11,7 @@
         <svg id="home-animation" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
         <div class="screen-center-container"> 
             <div class="inline-container">
-                <img>
+                <img src="/static/logo.png">
                 <h1 id="title">hridPaint</h1>
             </div>
             <div class="project-interaction inline-container">
@@ -72,6 +72,8 @@
             <input id="fill" type="checkbox">
             <p id="sides-label">Sides:</p>
             <input id="sides" type="number" value="4" min="3" step="1">
+            <p id="opacity-label">Opacity:</p>
+            <input id="opacity" type="number" value="1" min="0" step="0.01"></input>
             <p id="rect-x-label">Radius X:</p>
             <input id="rect-x" type="number" value="0" min="0">
             <p id="rect-y-label">Radius Y:</p>
@@ -105,12 +107,6 @@
                     <defs id="svg-defs"></defs>
                     <g id="alignment-line-group" stroke="red" stroke-width="1"></g>
                 </svg>
-                <!-- <div id="main-canvas"></div>
-                <canvas id="background-canvas"></canvas>
-                <canvas id="temp-canvas"></canvas>
-                <canvas id="flat-canvas"></canvas>
-                <canvas id="alignment-canvas"></canvas>
-                <div id="canvas-items"></div> -->
                 <div id="canvas-boxes"></div>
             </div>
         </div>
@@ -321,6 +317,7 @@
     <script src="/static/scripts/align.js"></script>
     <script src="/static/scripts/home.js"></script>
     <script src="/static/scripts/timeline.js"></script>
+    <script src="/static/scripts/tooltips.js"></script>
     <script src="/static/scripts/saving.js"></script>
     <script src="/static/scripts/start.js"></script>
 </body>

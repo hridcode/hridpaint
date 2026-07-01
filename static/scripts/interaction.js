@@ -8,6 +8,7 @@ function updateSelectedObject(change) {
         else if (change === "line-width") object.strokeWidth = stroke.value;
         else if (change === "radius-x") object.radiusX = radiusX.value;
         else if (change === "radius-y") object.radiusY = radiusY.value;
+        else if (change === "opacity") object.opacity = opacity.value;
 
         updateObject(object);
     }
@@ -51,6 +52,10 @@ radiusY.addEventListener('change', () => {
     updateSelectedObject("radius-y");
 })
 
+opacity.addEventListener('change', () => {
+    updateSelectedObject("opacity");
+})
+
 modes.forEach(el => el.addEventListener('click', () => {
     if (el.classList.contains('mode-active')) {
         el.classList.remove('mode-active');
@@ -79,11 +84,13 @@ function updateInteractionBar() {
     fill.style.display = "none";
     sides.style.display = "none";
     fontSize.style.display = "none";
+    opacity.style.display = "none";
 
     strokeLabel.style.display = "none";
     fillLabel.style.display = "none";
     sidesLabel.style.display = "none";
     fontSizeLabel.style.display = "none";
+    opacityLabel.style.display = "none";    
 
     leftAlign.style.display = "none";
     centerAlign.style.display = "none";
@@ -105,9 +112,13 @@ function updateInteractionBar() {
         strokeLabel.style.display = "";
         fillLabel.style.display = "";
 
+        opacity.style.display = "";
+        opacityLabel.style.display = "";
+
         if (selectedObjects.length === 1) {
             stroke.value = or(selectedObjects[0].strokeWidth, 1);
             fill.checked = or(selectedObjects[0].fillColor !== null, false);
+            opacity.value = or(selectedObjects[0].opacity, 1);
         }
     }
 

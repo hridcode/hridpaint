@@ -51,6 +51,19 @@ function projectFormat() {
     return content;
 }
 
+function download(url, isObjectURL = true) {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${saveProjectFilename.value}.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    if (isObjectURL) {
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+    }
+}
+
 saveAction.addEventListener('click', () => {
     const format = saveFormat.value;
 
@@ -83,17 +96,4 @@ saveAction.addEventListener('click', () => {
     };
 
     img.src = svgUrl;
-
-    function download(url, isObjectURL = true) {
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${saveProjectFilename.value}.${format}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        if (isObjectURL) {
-            setTimeout(() => URL.revokeObjectURL(url), 100);
-        }
-    }
 });
