@@ -48,21 +48,19 @@ function canvasBoxMousemove(event) {
         let centerY = Math.floor(object.bBox[1] + object.bBox[3] / 2);
         let halfHeight = Math.floor(canvasHeight / 2);
 
+        clearAlignmentLines();
+
         if (Math.abs(centerX - halfWidth) <= alignSnapRadius) {
-            object.bBox[0] = Math.floor(halfWidth - object.bBox[2] / 2)
-            // alignmentCtx.beginPath();
-            // alignmentCtx.moveTo(canvasWidth / 2, 0);
-            // alignmentCtx.lineTo(canvasWidth / 2, canvasHeight);
-            // alignmentCtx.stroke();
+            object.bBox[0] = Math.floor(halfWidth - object.bBox[2] / 2);
+            createAlignmentLine(canvasWidth / 2, 0, canvasWidth / 2, canvasHeight);
         }
 
         if (Math.abs(centerY - halfHeight) <= alignSnapRadius) {
-            object.bBox[1] = Math.floor(halfHeight - object.bBox[3] / 2)
-            // alignmentCtx.beginPath();
-            // alignmentCtx.moveTo(0, canvasHeight / 2);
-            // alignmentCtx.lineTo(canvasWidth, canvasHeight / 2);
-            // alignmentCtx.stroke();
+            object.bBox[1] = Math.floor(halfHeight - object.bBox[3] / 2);
+            createAlignmentLine(0, canvasHeight / 2, canvasWidth, canvasHeight / 2);
         }
+
+        updateAlignmentLines();
 
         let boxDiff = boundingBoxDiff(prevBox, object.bBox);
 
@@ -82,6 +80,7 @@ function canvasBoxMousemove(event) {
 
 function canvasBoxMouseup(event) {
     createTimelineEntry(moveObjects, "move", moveStart, moveObjects.map(x => x.bBox.slice(0, 2)));
+    clearAlignmentLines();
     moving = false;
     moveObjects = [];
     moveOffset = null;

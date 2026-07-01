@@ -1,3 +1,6 @@
+let alignmentLines = [];
+const alignmentLineGroup = document.getElementById('alignment-line-group');
+
 const objAlignLeft = document.getElementById('object-left-align');
 const objAlignCenter = document.getElementById('object-center-align');
 const objAlignRight = document.getElementById('object-right-align');
@@ -140,7 +143,6 @@ objDistV.addEventListener('click', () => {
 
     for (let objectIndex in middleObjects) {
         let object = objects[middleObjects[objectIndex].index]; 
-        //console.log(firstCenter, distance * (objectIndex + 1), (selectedObjectsCenters.length - 1), object.bBox[2], firstCenter + (distance * (objectIndex + 1) / (selectedObjectsCenters.length - 1)) - object.bBox[2]);
         object.bBox[1] = pushY + gap;
         updateObject(object);
         object.canvasBox.style.top = object.bBox[1] * zoom + 'px';
@@ -150,3 +152,33 @@ objDistV.addEventListener('click', () => {
         pushY += object.bBox[3];
     }
 })
+
+function createAlignmentLine(x1, y1, x2, y2) {
+    let newLine = createSVGElement('line');
+
+    newLine.setAttribute("x1", x1);
+    newLine.setAttribute("y1", y1);
+    newLine.setAttribute("x2", x2);
+    newLine.setAttribute("y2", y2);
+
+    alignmentLines.push({
+        element: newLine,
+        x1: x1,
+        y1: y1,
+        x2: x2,
+        y2: y2
+    })
+}
+
+function updateAlignmentLines() {
+    alignmentLineGroup.innerHTML = "";
+    
+    for (let line of alignmentLines) {
+        alignmentLineGroup.appendChild(line.element);
+    }
+}
+
+function clearAlignmentLines() {
+    alignmentLines = [];
+    updateAlignmentLines();
+}
