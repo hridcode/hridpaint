@@ -116,6 +116,7 @@ text {
 .canvas-box {
     position: absolute;
     z-index: 2;
+    transform-origin: center;
 }
 
 canvas {
@@ -153,6 +154,27 @@ canvas {
 
 .canvas-box:not(.selected) .stretch-point {
     display: none;
+}
+
+.canvas-box:not(.selected) .rotation-point {
+    display: none;
+}
+
+.rotation-point {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    background-image: url(/static/rotate.png);
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid black;
+    border-radius: 1000px;
+    left: 50%;
+    top: -20px;
+    cursor: grab;
 }
 
 /* Selection */

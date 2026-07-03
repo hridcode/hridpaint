@@ -13,10 +13,12 @@ function updateObject(obj, downX = null, downY = null, upX = null, upY = null) {
         case "line":
             element = element || createSVGElement('line');    
 
-            element.setAttribute('x1', or(downX, obj.points[0][0]));
-            element.setAttribute('y1', or(downY, obj.points[0][1]));
-            element.setAttribute('x2', or(upX, obj.points[1][0]));
-            element.setAttribute('y2', or(upY, obj.points[1][1]));
+            // console.log(obj.points, upX, upY)
+
+            element.setAttribute('x1', downX === null ? obj.points[0][0] : downX);
+            element.setAttribute('y1', downY === null ? obj.points[0][1]: downY);
+            element.setAttribute('x2', upX === null ? obj.points[1][0] : upX);
+            element.setAttribute('y2', upY === null ? obj.points[1][1] : upY);
 
             element.setAttribute('stroke', obj.strokeColor);
             element.setAttribute('stroke-width', obj.strokeWidth);            
@@ -158,6 +160,7 @@ function updateObject(obj, downX = null, downY = null, upX = null, upY = null) {
 
     element?.setAttribute('opacity', obj.opacity);
     element?.setAttribute('object-id', obj.index);
+    element?.setAttribute('transform', `rotate(${obj.rotation} ${obj.bBox[0] + obj.bBox[2] / 2} ${obj.bBox[1] + obj.bBox[3] / 2})`);
 
     if (!obj.element) return element;
 }
@@ -233,6 +236,7 @@ document.addEventListener('mousemove', (event) => {
     tempObj.strokeWidth = stroke.value;
     tempObj.opacity = opacity.value;
     tempObj.type = mode;
+    tempObj.rotation = 0;
 
     tempObj.fontSize = fontSize.value;
     
@@ -268,7 +272,7 @@ document.addEventListener('keyup', (event) => {
     altKey = false;
 })
 
-function createCanvasBox(object) {
+function createCanvasBox(object, rotation = 0) {
     let newCanvasBox = document.createElement('div');
     newCanvasBox.classList.add('canvas-box');
 
@@ -331,6 +335,16 @@ function createCanvasBox(object) {
         updateStretchPointPositions(object);
     }
 
+    let rotationPoint = document.createElement('div');
+    rotationPoint.classList.add('rotation-point');
+    rotationPoint.setAttribute('object-id', object.index);
+
+    rotationPoint.addEventListener('mousedown', rotatePointMousedown);
+
+    object.rotationPoint = rotationPoint;
+
+    newCanvasBox.appendChild(rotationPoint);
+
     canvasBoxes.appendChild(newCanvasBox);
 }
 
@@ -385,6 +399,8 @@ function finish() {
             newItemProperties.radiusX = 0;
             newItemProperties.radiusY = 0;
         }
+
+        newItemProperties.rotation = 0;
 
         newItemProperties.element = updateObject(newItemProperties);
 

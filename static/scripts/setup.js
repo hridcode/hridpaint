@@ -124,6 +124,9 @@ let moveObjects = [];
 let moveOffset;
 let moveStart;
 
+let rotating = false;
+let rotateObject;
+
 let shiftKey = false;
 let altKey = false;
 
