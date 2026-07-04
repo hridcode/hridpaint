@@ -297,6 +297,33 @@ button.mode-active:hover {
     color: var(--text-hover-color);
 }
 
+.object-name-container {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.object-name-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    box-sizing: border-box;
+}
+
+.object-name-input:focus {
+    border-bottom: 1px solid white;
+}
+
+.object-name-index {
+    font-family: monospace;
+    color: gray;
+}
+
+.object-name-selected > .object-name-index {
+    color: darkgray;
+}
+
 /* Dropdown menu */
 
 #home-bar {

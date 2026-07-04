@@ -89,26 +89,32 @@ function updateSelectBar() {
         if (!object) continue;
         let selected = selectedObjects.some(x => x.index === object.index);
 
-        const newLabel = document.createElement('label');
-        newLabel.textContent = object.name || (object.type.substring(0, 1).toUpperCase() + object.type.substring(1) + ", " + object.index);
+        let objectNameContainer = document.createElement('div');
+        objectNameContainer.classList.add('object-name-container');
 
-        if (selected && !newLabel.textContent.startsWith('(')) {
-            newLabel.textContent = '(' + newLabel.textContent + ')';
-            console.log(newLabel.textContent)
+        let indexLabel = document.createElement('label');
+        indexLabel.textContent = object.index;
+        indexLabel.classList.add('object-name-index');
+
+        const newInput = document.createElement('input');
+        newInput.classList.add('object-name-input');
+        newInput.value = object.name || object.type.substring(0, 1).toUpperCase() + object.type.substring(1);
+
+        if (selected) {
+            objectNameContainer.classList.add('object-name-selected');
         }
 
-        newLabel.onclick = (event) => {
-            // let selected = selectedObjects.map(x => x.index).indexOf(object.index) > 0;
-            
-            if (!shiftKey) {
-                selectList.querySelectorAll('label').forEach(x => {
-                    x.textContent = x.textContent.replace(/^\(|\)$/g, '');
-                });
-            }
+        newInput.onchange = (event) => {
+            object.name = newInput.value; 
+        }
 
+        indexLabel.onclick = () => {
             select(object, shiftKey);
         }
 
-        selectList.appendChild(newLabel);
+        objectNameContainer.appendChild(indexLabel);
+        objectNameContainer.appendChild(newInput);
+
+        selectList.appendChild(objectNameContainer);
     }
 }
