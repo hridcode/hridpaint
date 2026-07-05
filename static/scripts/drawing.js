@@ -406,12 +406,12 @@ function finish() {
 
         newItemProperties.filter = {}
 
-        let objectFilter = createSVGElement('filter');
-        objectFilter.id = `object-${newItemProperties.index}-filter`;
+        // let objectFilter = createSVGElement('filter');
+        // objectFilter.id = `object-${newItemProperties.index}-filter`;
 
-        newItemProperties.filterElement = objectFilter;
+        // newItemProperties.filterElement = objectFilter;
 
-        svgDefs.appendChild(objectFilter);
+        // svgDefs.appendChild(objectFilter);
 
         updateFilter(newItemProperties);
 

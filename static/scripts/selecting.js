@@ -20,7 +20,7 @@ function unselectAll() {
     selecting = false;
     for (let objIndex in objects) {
         let obj = objects[objIndex];
-        if (!obj) continue;
+        if (!obj || !obj.canvasBox) continue;
         obj.canvasBox.classList.remove('selected'); 
         obj.canvasBox.style.border = "none";
     }

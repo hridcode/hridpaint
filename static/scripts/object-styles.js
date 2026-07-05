@@ -81,15 +81,19 @@ styleAction.addEventListener('click', () => {
 })
 
 function updateFilter(object) {
-    const objectFilter = object.filterElement;
+    let objectFilter = object.filterElement;
+    if (!objectFilter) {
+        object.filterElement = createSVGElement('filter');
+        object.filterElement.id = `object-${object.index}-filter`;
+        svgDefs.appendChild(object.filterElement);
+        objectFilter = object.filterElement;
+    }
     objectFilter.innerHTML = "";
 
-    console.log(object.filter);
-
     for (let filter in object.filter) {
+        if (Object.values(object.filter[filter]).length === 0) continue;
         switch (filter) {
             case "shadow":
-                if (!object.filter.shadow) break;
                 let shadowObject = document.createElementNS('http://www.w3.org/2000/svg', 'feDropShadow');
             
                 shadowObject.setAttribute('dx', object.filter.shadow.dX);
@@ -101,14 +105,12 @@ function updateFilter(object) {
                 objectFilter.appendChild(shadowObject);
                 break;
             case "blur":
-                if (!object.filter.blur) break;
                 let blurObject = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
                 blurObject.setAttributeNS('http://www.w3.org/2000/svg', 'stdDeviation', object.filter.blur.stDev);
 
                 objectFilter.appendChild(blurObject);
                 break;
             case "lighting":
-                if (!object.filter.lighting) break;
                 let lightingObject = document.createElementNS('http://www.w3.org/2000/svg', 'feDiffuseLighting');
 
                 lightingObject.setAttribute('lighting-color', object.filter.lighting.color);

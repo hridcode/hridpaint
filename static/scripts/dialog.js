@@ -1,28 +1,3 @@
-function generateProjectFile() {
-    let firstLine = `canvas ${canvasWidth} ${canvasHeight}`;
-    let objectLines = [];
-
-    let currentLine = ""
-
-    for (let object of objects) {
-        currentLine = object.type + ' ';
-        if (isModeFree(object.type)) {
-            currentLine += object.points.join(" ");
-        } else {
-            currentLine += object.bBox.join(" ");
-        }
-        currentLine += ' ';
-        currentLine += object.fillColor !== null ? 't' : 'f';
-        currentLine += ' ';
-        currentLine += `${object.strokeWidth} ${object.fillColor || 'none'} ${object.strokeColor}`;
-        
-        objectLines.push(currentLine);
-        currentLine = "";
-    }
-
-    return new Blob([objectLines.join('\n')], { type: 'text/plain'});
-}
-
 saveAs.addEventListener('click', () => {saveDialog.style.display = "block"})
 
 saveProject.addEventListener('click', () => {saveProjectDialog.style.display = "block"});

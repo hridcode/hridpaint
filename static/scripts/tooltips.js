@@ -22,3 +22,42 @@ new Tooltip(modeText, "Text (T)");
 new Tooltip(primCol, "Primary color");
 new Tooltip(switchCol, "Switch color (2)");
 new Tooltip(scnCol, "Secondary color");
+
+document.addEventListener('keydown', (event) => {
+    let plain = !event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey;
+    
+    if (plain) {
+        switch (event.key.toLowerCase()) {
+            case "l":
+                mode = "line";
+                break;
+            case "r":
+                mode = "rect";
+                break;
+            case "e":
+                mode = "ellipse";
+                break;
+            case "c":
+                mode = "triangle-scalene";
+                break;
+            case "i":
+                mode = "triangle-isosceles";
+                break;
+            case "x":
+                mode = "polygon-free";
+                break;
+            case "q":
+                mode = "quadratic-curve";
+                break;
+            case "v":
+                mode = "cubic-curve";
+                break;
+            case "t":
+                mode = "text";
+                break;
+            default:
+                break;
+        }
+        updateInteractionBar();
+    }
+})
