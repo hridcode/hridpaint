@@ -36,13 +36,19 @@ const zoomPercentage = document.getElementById('zoom-percentage');
 
 const newProject = document.getElementById('new-project');
 const openProject = document.getElementById('open-project');
+const openProjectInt = document.getElementById('open-project-int');
 const openImage = document.getElementById('open-image');
 
 const newProjectDialog = document.getElementById('new-project-dialog');
 const newProjectAction = document.getElementById('new-project-action');
 const newProjectCanvasWidth = document.getElementById('canvas-width-input');
 const newProjectCanvasHeight = document.getElementById('canvas-height-input');
+const newProjectColor = document.getElementById('canvas-color-input');
+const newProjectOpacity = document.getElementById('canvas-opacity-input');
 const canvasInchDimensions = document.getElementById('canvas-inch-dimensions');
+
+const svgBackground = document.getElementById('svg-background');
+const svgCheckerboardBackground = document.getElementById('svg-checkerboard-background');
 
 const styleSelect = document.getElementById('style-select');
 const objectStyleDialog = document.getElementById('object-style-dialog');

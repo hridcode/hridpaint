@@ -60,6 +60,33 @@ function canvasBoxMousemove(event) {
             createAlignmentLine(0, canvasHeight / 2, canvasWidth, canvasHeight / 2);
         }
 
+        let inLoop = true;
+
+        for (let otherObject of objects) {
+            if (!object) continue;
+            if (object.index === otherObject.index || !inLoop) continue;
+
+            let otherCenterX = otherObject.bBox[0] + otherObject.bBox[2] / 2;
+            let otherCenterY = otherObject.bBox[1] + otherObject.bBox[3] / 2;
+
+            let inX = Math.abs(centerX - otherCenterX) <= alignSnapRadius;
+            let inY = Math.abs(centerY - otherCenterY) <= alignSnapRadius;
+
+            if (inX) {
+                console.log(inX);
+                object.bBox[0] = centerX - object.bBox[2] / 2;
+                createAlignmentLine(centerX, 0, centerX, canvasHeight);
+            }
+            
+            if (inY) {
+                console.log(inY);
+                object.bBox[1] = centerY - object.bBox[3] / 2;
+                createAlignmentLine(0, centerY, canvasWidth, centerY);
+            }
+
+            if (inX || inY) inLoop = false;            
+        } 
+
         updateAlignmentLines();
 
         let boxDiff = boundingBoxDiff(prevBox, object.bBox);

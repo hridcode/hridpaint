@@ -51,6 +51,10 @@ function projectFormat(description = "") {
             objectBlock += `- rd$ x=${object.radiusX} y=${object.radiusY}\n`;
         }
 
+        if (object.type === "image") {
+            objectBlock += `- iu$ ${object.dimensions[0]} ${object.dimensions[1]} ${object.url}`
+        }
+
         for (let effect in object.filter) {
             let effectLine = `- e$${effect} `;
 
@@ -140,6 +144,10 @@ function openProjectFile(content) {
                     currObj.radiusX = +params[0].split("=")[1];
                     currObj.radiusY = +params[1].split("=")[1];
                     break;
+                case "iu":
+                    currObj.url = params[0];
+                    currObj.dimensions = [+params[1], +params[2]];
+                    break;
                 default:
                     break;
             }
@@ -169,6 +177,7 @@ function download(filename, url, isObjectURL = true) {
 }
 
 saveAction.addEventListener('click', () => {
+    svgCheckerboardBackground.style.display = "none";
     const format = saveFormat.value;
 
     const blob = new Blob(
@@ -200,6 +209,7 @@ saveAction.addEventListener('click', () => {
     };
 
     img.src = svgUrl;
+    svgCheckerboardBackground.style.display = "";
 });
 
 saveProjectAction.addEventListener('click', () => {
@@ -209,7 +219,7 @@ saveProjectAction.addEventListener('click', () => {
     download(`${saveProjectFilename.value}.hxj`, projectURL);
 })
 
-openProject.addEventListener('click', async () => {
+async function projectFileListener() {
     const [handle] = await window.showOpenFilePicker({
         types: [{
             description: "hridPaint file",
@@ -223,10 +233,7 @@ openProject.addEventListener('click', async () => {
     const text = await file.text();
 
     const openData = openProjectFile(text);
-
-    homePage.style.display = "none";
-    mainPage.style.display = "block";
-
+    
     canvasWidth = openData.width;
     canvasHeight = openData.height;
 
@@ -241,4 +248,12 @@ openProject.addEventListener('click', async () => {
         createCanvasBox(object);
         updateFilter(object);
     }
+}
+
+openProject.addEventListener('click', async () => {
+    homePage.style.display = "none";
+    mainPage.style.display = "block";
+    projectFileListener();
 })
+
+openProjectInt.addEventListener('click', projectFileListener);

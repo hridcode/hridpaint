@@ -22,6 +22,9 @@ newProjectAction.addEventListener('click', () => {
     homeActivated = false;
     homeObjects = null;
     homeSvg.innerHTML = "";
+    
+    svgBackground.setAttribute('fill', newProjectColor.value);
+    svgBackground.setAttribute('opacity', newProjectOpacity.value);
 })
 
 function updateCanvasDimensionLabel(event, ppi = 96) {
