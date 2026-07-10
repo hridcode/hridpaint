@@ -10,7 +10,7 @@ const objAlignBottom = document.getElementById('object-bottom-align');
 const objDistH = document.getElementById('object-dist-h');
 const objDistV = document.getElementById('object-dist-v');
 
-objAlignLeft.addEventListener('click', () => {
+const alignLeft = () => {
     let selectedObjectsLeft = selectedObjects.map(x => x.bBox[0]);
 
     for (let object of selectedObjects) {
@@ -19,9 +19,9 @@ objAlignLeft.addEventListener('click', () => {
 
         object.canvasBox.style.left = object.bBox[0] * zoom + 'px';
     }
-})
+}
 
-objAlignCenter.addEventListener('click', () => {
+const alignCenter = () => {
     let selectedObjectsLeft = selectedObjects.map(x => x.bBox[0]);
     let selectedObjectsRight = selectedObjects.map(x => x.bBox[0] + x.bBox[2]);
 
@@ -33,9 +33,9 @@ objAlignCenter.addEventListener('click', () => {
 
         object.canvasBox.style.left = object.bBox[0] * zoom + 'px';
     }
-})
+}
 
-objAlignRight.addEventListener('click', () => {
+const alignRight = () => {
     let selectedObjectsRight = selectedObjects.map(x => x.bBox[0] + x.bBox[2]);
 
     for (let object of selectedObjects) {
@@ -44,9 +44,9 @@ objAlignRight.addEventListener('click', () => {
 
         object.canvasBox.style.left = object.bBox[0] * zoom + 'px';
     }
-})
+}
 
-objAlignTop.addEventListener('click', () => {
+const alignTop = () => {
     let selectedObjectsTop = selectedObjects.map(x => x.bBox[1]);
 
     for (let object of selectedObjects) {
@@ -55,9 +55,9 @@ objAlignTop.addEventListener('click', () => {
 
         object.canvasBox.style.top = object.bBox[1] * zoom + 'px';
     }
-})
+}
 
-objAlignMiddle.addEventListener('click', () => {
+const alignMiddle = () => {
     let selectedObjectsTop = selectedObjects.map(x => x.bBox[1]);
     let selectedObjectsBottom = selectedObjects.map(x => x.bBox[1] + x.bBox[3]);
 
@@ -69,9 +69,9 @@ objAlignMiddle.addEventListener('click', () => {
 
         object.canvasBox.style.top = object.bBox[1] * zoom + 'px';
     }
-})
+}
 
-objAlignBottom.addEventListener('click', () => {
+const alignBottom = () => {
     let selectedObjectsBottom = selectedObjects.map(x => x.bBox[1] + x.bBox[3]);
 
     for (let object of selectedObjects) {
@@ -80,9 +80,9 @@ objAlignBottom.addEventListener('click', () => {
 
         object.canvasBox.style.top = object.bBox[1] * zoom + 'px';
     }
-})
+}
 
-objDistH.addEventListener('click', () => {
+const distH = () => {
     let selectedObjectBoxes = selectedObjects.map(x => {
         return {
             index: x.index,
@@ -116,9 +116,9 @@ objDistH.addEventListener('click', () => {
         pushX += gap;
         pushX += object.bBox[2];
     }
-})
+}
 
-objDistV.addEventListener('click', () => {
+const distV = () => {
     let selectedObjectBoxes = selectedObjects.map(x => {
         return {
             index: x.index,
@@ -151,7 +151,18 @@ objDistV.addEventListener('click', () => {
         pushY += gap;
         pushY += object.bBox[3];
     }
-})
+}
+
+objAlignLeft.addEventListener('click', alignLeft);
+objAlignCenter.addEventListener('click', alignCenter);
+objAlignRight.addEventListener('click', alignRight);
+
+objAlignTop.addEventListener('click', alignTop);
+objAlignMiddle.addEventListener('click', alignMiddle);
+objAlignBottom.addEventListener('click', alignBottom);
+
+objDistH.addEventListener('click', distH);
+objDistV.addEventListener('click', distV);
 
 function createAlignmentLine(x1, y1, x2, y2) {
     let newLine = createSVGElement('line');
@@ -182,3 +193,40 @@ function clearAlignmentLines() {
     alignmentLines = [];
     updateAlignmentLines();
 }
+
+document.addEventListener('keydown', (event) => {
+    if (event.altKey) {
+        switch (event.key.toLowerCase()) {
+            case "l":
+                alignLeft();
+                break;
+            case "c":
+                alignCenter();
+                break;
+            case "r":
+                alignRight();
+                break;
+            case "t":
+                alignTop();
+                break;
+            case "m":
+                alignMiddle();
+                break;
+            case "b":
+                alignBottom();
+                break;
+            case "h":
+                if (event.shiftKey) {
+                    distH();
+                }
+                break;
+            case "v":
+                if (event.shiftKey) {
+                    distV();
+                }
+                break;
+            default:
+                break;
+        } 
+    }
+})

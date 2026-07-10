@@ -257,3 +257,22 @@ openProject.addEventListener('click', async () => {
 })
 
 openProjectInt.addEventListener('click', projectFileListener);
+
+document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey) {
+        switch (event.key.toLowerCase()) {
+            case "s":
+                showDialog(saveDialog);
+                event.preventDefault();
+                break;
+            case "p":
+                showDialog(saveProjectDialog);
+                event.preventDefault();
+                break;
+            case "o":
+                projectFileListener();
+                event.preventDefault();
+                break;    
+        }
+    }
+})

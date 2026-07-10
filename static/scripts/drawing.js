@@ -401,6 +401,7 @@ function finish() {
         }
 
         newItemProperties.rotation = 0;
+        newItemProperties.zIndex = objects.filter(x => x).length;
 
         newItemProperties.element = updateObject(newItemProperties);
 
@@ -441,4 +442,6 @@ function finish() {
     polyPoints = [];
 
     updateInteractionBar();
+
+    updateOrder();
 }

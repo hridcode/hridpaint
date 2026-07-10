@@ -26,9 +26,6 @@ const saveProjectDialog = document.getElementById('save-project-dialog');
 const saveProjectFilename = document.getElementById('save-proj-filename');
 const saveProjectAction = document.getElementById('save-proj-action');
 
-const closeButtons = document.querySelectorAll('.close');
-const dialogs = document.querySelectorAll('.dialog-box');
-
 const zoomBox = document.getElementById('zoom-box');
 const zoomMinus = document.getElementById('zoom-minus');
 const zoomPlus = document.getElementById('zoom-plus');
@@ -63,6 +60,14 @@ const modeQuadraticCurve = document.getElementById('quadratic-curve');
 const modeCubicCurve = document.getElementById('cubic-curve');
 const modeText = document.getElementById('text');
 const modes = [modeLine, modeRect, modeEllipse, modeTriangleScalene, modeTriangleIsosceles, modePolygonFree, modeQuadraticCurve, modeCubicCurve, modeText];
+
+const objectDataBox = document.getElementById('object-data');
+const objectDataContent = document.getElementById('object-data-content');
+const objectDataCollapse = document.getElementById('object-data-collapse');
+const objectDataCollapseLabel = objectDataCollapse.querySelector('label');
+const objectPosition = document.getElementById('object-position');
+const objectDimensions = document.getElementById('object-dimensions');
+const objectCenter = document.getElementById('object-center');
 
 const stroke = document.getElementById('stroke');
 const fill = document.getElementById('fill');

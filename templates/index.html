@@ -11,6 +11,9 @@
         <svg id="home-animation" version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>
         <div class="screen-center-container"> 
             <div class="inline-container">
+                <label style="font-size: 0.9em; opacity: 0.6;">Made with &lt;3 by Hridhaan Shetty</label>
+            </div>
+            <div class="inline-container">
                 <img src="/static/logo.png">
                 <h1 id="title">hridPaint</h1>
             </div>
@@ -19,6 +22,16 @@
                 <button id="open-project">Open Project</button>
                 <button id="open-image">Open Image</button>
             </div>
+        </div>
+        <div id="footer-bar">
+            <label class="hover-exclude">v1.00</label>
+            <label>    
+                <a href="https://www.github.com/hridcode/hridpaint" target="_blank">github</a>
+            </label>
+            <label>
+                <a href="https://macondo.hackclub.com/projects/1429" target="_blank">macondo</a>
+            </label>
+            <label>help</label>
         </div>
         <div id="new-project-dialog" class="dialog-box">
             <div class="dialog-top-bar">
@@ -60,14 +73,14 @@
             <div>
                 <label>Align</label>
                 <div class="dropdown">
-                    <p id="object-left-align">Align all to left...</p>
-                    <p id="object-center-align">Align all to center...</p>
-                    <p id="object-right-align">Align all to right...</p>
-                    <p id="object-top-align">Align all to top...</p>
-                    <p id="object-middle-align">Align all to middle...</p>
-                    <p id="object-bottom-align">Align all to bottom...</p>
-                    <p id="object-dist-h">Distribute horizontally...</p>
-                    <p id="object-dist-v">Distribute vertically...</p>
+                    <p id="object-left-align">Align all to left...<label class="keybind">Alt+L</label></p>
+                    <p id="object-center-align">Align all to center...<label class="keybind">Alt+C</label></p>
+                    <p id="object-right-align">Align all to right...<label class="keybind">Alt+R</label></p>
+                    <p id="object-top-align">Align all to top...<label class="keybind">Alt+T</label></p>
+                    <p id="object-middle-align">Align all to middle...<label class="keybind">Alt+M</label></p>
+                    <p id="object-bottom-align">Align all to bottom...<label class="keybind">Alt+B</label></p>
+                    <p id="object-dist-h">Distribute horizontally...<label class="keybind">Alt+Shift+H</label></p>
+                    <p id="object-dist-v">Distribute vertically...<label class="keybind">Alt+Shift+V</label></p>
                 </div>
             </div>
             <div>
@@ -126,6 +139,25 @@
                     <g id="alignment-line-group" stroke="red" stroke-width="1"></g>
                 </svg>
                 <div id="canvas-boxes"></div>
+            </div>
+            <div id="object-data">
+                <div id="object-data-content">
+                    <div class="object-data-wrapper">
+                        <label>Position</label>
+                        <label id="object-position">(0, 0)</label>
+                    </div>
+                    <div class="object-data-wrapper">
+                        <label>Dimensions</label>
+                        <label id="object-dimensions">W200, H150</label>
+                    </div>
+                    <div class="object-data-wrapper">
+                        <label>Center</label>
+                        <label id="object-center">(100, 75)</label>
+                    </div>
+                </div>
+                <div id="object-data-collapse">
+                    <label>&lt;</label>
+                </div>
             </div>
         </div>
         <div id="right-bar">
@@ -329,6 +361,7 @@
     <script src="/static/scripts/rotation.js"></script>
     <script src="/static/scripts/stretching.js"></script>
     <script src="/static/scripts/selecting.js"></script>
+    <script src="/static/scripts/reorder.js"></script>
     
     <script src="/static/scripts/interaction.js"></script>
     <script src="/static/scripts/dialog.js"></script>
@@ -340,9 +373,9 @@
     <script src="/static/scripts/home.js"></script>
     
     <script src="/static/scripts/timeline.js"></script>
-    <script src="/static/scripts/tooltips.js"></script>
     <script src="/static/scripts/saving.js"></script>
-    
-    <script src="/static/scripts/start.js"></script>
+
+    <script>
+    </script>
 </body>
 </html>

@@ -8,11 +8,18 @@ function canvasBoxMouseleave(event) {
 
 function select(object, multi=false) {
     if (!multi) unselectAll();
-    selecting = true;
-    selectedObjects.push(object);
-    object.canvasBox.classList.add('selected');
+    let group = groups.filter(x => x.indexOf(object) > 0);
+    if (group.length === 0) group = [object,];
+
+    for (let object of group) {
+        selecting = true;
+        selectedObjects.push(object);
+        object.canvasBox.classList.add('selected');
+    }    
+    
     updateInteractionBar();
     updateSelectBar();
+    updateObjectDataBox();
 }
 
 function unselectAll() {
@@ -26,6 +33,7 @@ function unselectAll() {
     }
     updateInteractionBar();
     updateSelectBar();
+    updateObjectDataBox();
 }
 
 document.addEventListener('click', (event) => {
@@ -85,12 +93,20 @@ document.addEventListener('keydown', (event) => {
 function updateSelectBar() {
     selectList.innerHTML = "";
 
-    for (let object of objects) {
+    let sortedObjects = [...objects].filter(Boolean);
+    sortedObjects.sort((a, b) => b.zIndex - a.zIndex);
+
+    for (let object of sortedObjects) {
         if (!object) continue;
         let selected = selectedObjects.some(x => x.index === object.index);
 
         let objectNameContainer = document.createElement('div');
         objectNameContainer.classList.add('object-name-container');
+
+        objectNameContainer.setAttribute('draggable', true);
+
+        let dragCircle = document.createElement('div');
+        dragCircle.classList.add('object-name-drag-ball');
 
         let indexLabel = document.createElement('label');
         indexLabel.textContent = object.index;
@@ -112,9 +128,44 @@ function updateSelectBar() {
             select(object, shiftKey);
         }
 
+        objectNameContainer.appendChild(dragCircle);
         objectNameContainer.appendChild(indexLabel);
         objectNameContainer.appendChild(newInput);
+
+        dragCircle.addEventListener('mousedown', selectBarMousedownListener);
+        objectNameContainer.addEventListener('mousemove', selectBarMousemoveListener);
 
         selectList.appendChild(objectNameContainer);
     }
 }
+
+let groups = [];
+
+function inGroup(object) {
+    for (let group of groups) {
+        if (group.indexOf(object) > 0) return false;
+    }
+    return true;
+}
+
+function makeGroup(objects) {
+    groups.push(objects.filter(Boolean).filter(inGroup).map(x => x.index));
+    return groups.length - 1;
+}
+
+function breakGroup(objects) {
+
+}
+
+document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.altKey) {
+        if (event.key.toLowerCase() === "g") {
+            if (!event.shiftKey) {
+                makeGroup(selectedObjects);
+                select(selectedObjects[0]);
+            } else {
+                breakGroup(selectedObjects);            
+            }
+        }
+    }
+})

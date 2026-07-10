@@ -55,6 +55,7 @@ function stretchPointPolyMousemove(event) {
     stretchObject.canvasBox.style.height = stretchObject.bBox[3] * zoom + "px";
     
     updateObject(stretchObject, stretchObject.bBox[0], stretchObject.bBox[1], x, y);
+    updateObjectDataBox();
 }
 
 function stretchPointPolyMouseup(event) {
@@ -121,6 +122,7 @@ function stretchPointRectMousemove(event, shift = false, alt = false) {
     stretchObject.canvasBox.style.height = stretchObject.bBox[3] * zoom + "px";
 
     updateObject(stretchObject, stretchObject.bBox[0], stretchObject.bBox[1], x, y);
+    updateObjectDataBox();
 }
 
 document.addEventListener('mousemove', (event) => {

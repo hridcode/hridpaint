@@ -63,7 +63,7 @@ function canvasBoxMousemove(event) {
         let inLoop = true;
 
         for (let otherObject of objects) {
-            if (!object) continue;
+            if (otherObject === null) continue;
             if (object.index === otherObject.index || !inLoop) continue;
 
             let otherCenterX = otherObject.bBox[0] + otherObject.bBox[2] / 2;
@@ -103,6 +103,7 @@ function canvasBoxMousemove(event) {
 
         updateObject(object, object.bBox[0], object.bBox[1], mouseX, mouseY);
     }
+    updateObjectDataBox();
 }
 
 function canvasBoxMouseup(event) {

@@ -60,6 +60,7 @@ modes.forEach(el => el.addEventListener('click', () => {
     if (el.classList.contains('mode-active')) {
         el.classList.remove('mode-active');
         mode = "none";
+        updateInteractionBar();
         return;
     }
     mode = el.id;
@@ -154,4 +155,43 @@ function updateInteractionBar() {
 
 window.addEventListener('resize', () => {
     adjustZoom();
+})
+
+document.addEventListener('keydown', (event) => {
+    let plain = !event.ctrlKey && !event.altKey && !event.shiftKey && !event.metaKey;
+    
+    if (plain) {
+        switch (event.key.toLowerCase()) {
+            case "l":
+                mode = "line";
+                break;
+            case "r":
+                mode = "rect";
+                break;
+            case "e":
+                mode = "ellipse";
+                break;
+            case "c":
+                mode = "triangle-scalene";
+                break;
+            case "i":
+                mode = "triangle-isosceles";
+                break;
+            case "x":
+                mode = "polygon-free";
+                break;
+            case "q":
+                mode = "quadratic-curve";
+                break;
+            case "v":
+                mode = "cubic-curve";
+                break;
+            case "t":
+                mode = "text";
+                break;
+            default:
+                break;
+        }
+        updateInteractionBar();
+    }
 })

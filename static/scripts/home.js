@@ -55,7 +55,7 @@ function animationStep(timestamp) {
         }
     }
 
-    if (Math.random() <= 0.03) {
+    if (Math.random() <= 0.01) {
         let newHomeObject = {};
 
         newHomeObject.width = Math.max(window.innerWidth / 20, Math.floor(Math.random() * window.innerWidth / 10));

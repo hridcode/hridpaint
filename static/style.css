@@ -300,6 +300,7 @@ button.mode-active:hover {
 .object-name-container {
     display: flex;
     gap: 5px;
+    padding: 5px;
     align-items: center;
 }
 
@@ -322,6 +323,19 @@ button.mode-active:hover {
 
 .object-name-selected > .object-name-index {
     color: darkgray;
+}
+
+.object-name-drag-ball {
+    flex: 0 0 10px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--border-color);
+    cursor: grab;
+    border-radius: 50%;
+}
+
+.object-name-container.dragging {
+    background-color: var(--accent-color);
 }
 
 /* Dropdown menu */
@@ -352,10 +366,13 @@ button.mode-active:hover {
     border: 2px solid var(--border-color);
     flex-direction: column;
     z-index: 500;
+    transition: opacity 0.5s ease;
     padding: 0;
 }
 
 .dropdown > p {
+    display: flex;
+    align-items: center;
     padding: 8px;
     margin: 0;
     cursor: pointer;
@@ -365,9 +382,22 @@ button.mode-active:hover {
     background-color: var(--hover-color);
 }
 
-#home-bar label:hover ~ .dropdown, .dropdown:hover {
+#home-bar label:hover ~ .dropdown {
     display: flex;
     top: 100%;
+    opacity: 0.2;
+}
+
+.dropdown:hover {
+    display: flex;
+    top: 100%;
+    opacity: 1;
+}
+
+.keybind {
+    margin-left: auto;
+    opacity: 0.7;
+    font-size: 0.9em;
 }
 
 /* Dialog boxes */
@@ -709,7 +739,122 @@ button.mode-active:hover {
     visibility: visible;
 }
 
-/* Misc */
+/* Object data box */
+
+#object-data {
+    display: flex;
+    align-items: stretch;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    border-top-right-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    background-color: var(--background-color);
+}
+
+#object-data-content {
+    overflow: hidden;
+    width: var(--content-width);
+    transition:
+        width 0.5s ease-in-out;
+}
+
+#object-data.collapsed > #object-data-content {
+    width: 0;
+}
+
+.object-data-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 3px 5px;
+    white-space: nowrap;
+}
+
+#object-data-collapse {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#object-data-collapse label {
+    opacity: 0.6;
+    transition: transform 0.4s ease;
+}
+
+#object-data.collapsed #object-data-collapse label {
+    transform: rotateY(180deg);
+}
+
+.object-data-wrapper {
+    display: flex;
+    gap: 10px;
+    padding: 3px;
+}
+
+.object-data-wrapper > :first-child {
+    opacity: 0.8;
+    font-weight: 100;
+}
+
+.object-data-wrapper > :last-child {
+    margin-left: auto;
+}
+
+/* Footer */
+
+@keyframes fade-in {
+    from {
+        transform: translate(10px, 10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-up {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 0.7;
+    }
+}
+
+#footer-bar {
+    display: flex;
+    gap: 5px;
+    font-size: 0.8em;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    animation: fade-up 0.5s ease;
+}
+
+#footer-bar a {
+    color: white;
+    text-decoration: none;
+}
+
+#footer-bar > *:not(.hover-exclude) {
+    cursor: pointer;
+}
+
+#footer-bar > *:not(.hover-exclude):hover {
+    opacity: 0.6;
+}
+
+
 
 #alignment-canvas {
     z-index: 4;
@@ -725,6 +870,10 @@ button.mode-active:hover {
     height: 100%;
     pointer-events: none;
     z-index: -100;
+}
+
+.inline-container {
+    animation: fade-in 1.2s ease;
 }
 
 /* #main-content {

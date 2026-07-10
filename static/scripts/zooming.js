@@ -24,3 +24,19 @@ function adjustZoom() {
     canvasBoundingRect = mainCanvas.getBoundingClientRect();
     // drawBackgroundCheckerboard();
 }
+
+
+document.addEventListener('wheel', (event) => {
+    zoom += -Math.sign(event.deltaY) * 0.05;
+    adjustZoom();
+})
+
+zoomMinus.addEventListener('click', () => {
+    zoom -= 0.05;
+    adjustZoom();
+})
+
+zoomPlus.addEventListener('click', () => {
+    zoom += 0.05;
+    adjustZoom();
+})
