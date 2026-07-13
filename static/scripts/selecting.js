@@ -14,6 +14,7 @@ function select(object, multi=false) {
     for (let object of group) {
         selecting = true;
         selectedObjects.push(object);
+        canvasBoxes.appendChild(object.canvasBox);
         object.canvasBox.classList.add('selected');
     }    
     
@@ -34,6 +35,7 @@ function unselectAll() {
     updateInteractionBar();
     updateSelectBar();
     updateObjectDataBox();
+    updateOrder();
 }
 
 document.addEventListener('click', (event) => {

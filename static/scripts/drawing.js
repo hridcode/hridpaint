@@ -488,4 +488,6 @@ function finish() {
     updateInteractionBar();
 
     updateOrder();
+
+    localStorage.setItem('previous-data', projectFormat());
 }

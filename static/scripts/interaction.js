@@ -4,7 +4,7 @@ function updateSelectedObject(change) {
     
     for (let object of selectedObjects) {
         if (change === "primary-color" || change === "color-switch") object.strokeColor = primaryColor;
-        else if (change === "secondary-color" || change === "color-switch") object.fillColor = fill.checked ? secondaryColor : null; 
+        if (change === "secondary-color" || change === "color-switch") object.fillColor = fill.checked ? secondaryColor : null; 
         else if (change === "line-width") object.strokeWidth = stroke.value;
         else if (change === "radius-x") object.radiusX = radiusX.value;
         else if (change === "radius-y") object.radiusY = radiusY.value;
@@ -15,22 +15,17 @@ function updateSelectedObject(change) {
 }
 
 switchCol.addEventListener('click', () => {
-    const prevPrimaryCol = primaryColor;
+    const prevPrimaryCol = primaryColor + "";
     const prevSecondaryCol = secondaryColor;
 
     primaryColor = prevSecondaryCol;
+
+    console.log(prevPrimaryCol, prevSecondaryCol);
+
     secondaryColor = prevPrimaryCol;
 
     updateSelectedObject("color-switch");
 })
-
-// primCol.addEventListener('change', () => {
-//     updateSelectedObject("primary-color");
-// })
-
-// scnCol.addEventListener('change', () => {
-//     updateSelectedObject("secondary-color");
-// })
 
 stroke.addEventListener('change', () => {
     updateSelectedObject("line-width");

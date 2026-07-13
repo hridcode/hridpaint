@@ -35,6 +35,7 @@ const newProject = document.getElementById('new-project');
 const openProject = document.getElementById('open-project');
 const openProjectInt = document.getElementById('open-project-int');
 const openImage = document.getElementById('open-image');
+const loadLastProject = document.getElementById('load-project');
 
 const newProjectDialog = document.getElementById('new-project-dialog');
 const newProjectAction = document.getElementById('new-project-action');

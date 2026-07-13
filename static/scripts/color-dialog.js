@@ -137,8 +137,10 @@ scnCol.addEventListener('click', () => {
 colorDialogConfirm.addEventListener('click', () => {
     if (colorActivated === 0) {
         primaryColor = colorDialogTopBar.style.backgroundColor;
+        updateSelectedObject("primary-color");
     } else {
         secondaryColor = colorDialogTopBar.style.backgroundColor;
+        updateSelectedObject("secondary-color");
     }
 
     closeDialog(colorDialog);

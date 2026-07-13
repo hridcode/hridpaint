@@ -262,6 +262,10 @@ canvas {
     background-color: var(--hover-color);
 }
 
+.color-button {
+    border: 1px solid var(--border-color) !important;
+}
+
 button.mode-active {
     background-color: var(--hover-color) !important;
 }

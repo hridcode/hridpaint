@@ -16,7 +16,7 @@ function projectFormat(description = "") {
     // --meta
     // - d$ "cool projec"
 
-    let content = `transparent ${canvasWidth} ${canvasHeight}\n\n`;
+    let content = `${svgBackground.getAttribute('fill')} ${svgBackground.getAttribute('opacity')} ${canvasWidth} ${canvasHeight}\n\n`;
 
     for (let object of objects) {
         if (!object) continue;
@@ -47,6 +47,8 @@ function projectFormat(description = "") {
         objectBlock += `- o$ ${object.opacity}\n`;
         objectBlock += `- r$ ${object.rotation}\n`;
         
+        objectBlock += `- z$ ${object.zIndex}`;
+
         if (object.type === "rect") {
             objectBlock += `- rd$ x=${object.radiusX} y=${object.radiusY}\n`;
         }
@@ -89,8 +91,9 @@ function openProjectFile(content) {
     let lastLine = contentLines.slice(-1)[0];
 
     let firstLineWords = firstLine.split(" ");
-    let newWidth = +firstLineWords[1];
-    let newHeight = +firstLineWords[2];
+
+    let newWidth = +firstLineWords[2];
+    let newHeight = +firstLineWords[3];
 
     let currObj = {};
     let tempObjList = [];
@@ -155,6 +158,9 @@ function openProjectFile(content) {
                 case "dg":
                     currObj.degree = +params[0];
                     break;
+                case "z":
+                    currObj.zIndex = +params[0];
+                    break;
                 default:
                     break;
             }
@@ -164,6 +170,8 @@ function openProjectFile(content) {
     if (currObj) tempObjList.push(currObj);
 
     return {
+        backgroundColor: firstLineWords[0],
+        backgroundOpacity: +firstLineWords[1],
         width: newWidth,
         height: newHeight,
         objects: tempObjList
@@ -226,6 +234,26 @@ saveProjectAction.addEventListener('click', () => {
     download(`${saveProjectFilename.value}.hxj`, projectURL);
 })
 
+function loadProject(openData) {
+    canvasWidth = openData.width;
+    canvasHeight = openData.height;
+
+    svgBackground.setAttribute('fill', openData.backgroundColor);
+    svgBackground.setAttribute('opacity', openData.backgroundOpacity);
+
+    adjustZoom();
+
+    objects = openData.objects;
+
+    for (let objectIndex in objects) {
+        let object = objects[objectIndex];
+        objects[objectIndex].element = updateObject(object);
+        mainCanvas.insertBefore(objects[objectIndex].element, alignmentLineGroup);
+        createCanvasBox(object);
+        updateFilter(object);
+    }
+}
+
 async function projectFileListener() {
     const [handle] = await window.showOpenFilePicker({
         types: [{
@@ -239,27 +267,13 @@ async function projectFileListener() {
     const file = await handle.getFile();
     const text = await file.text();
 
-    const openData = openProjectFile(text);
+    const data = openProjectFile(text);
     
-    canvasWidth = openData.width;
-    canvasHeight = openData.height;
-
-    adjustZoom();
-
-    objects = openData.objects;
-
-    for (let objectIndex in objects) {
-        let object = objects[objectIndex];
-        objects[objectIndex].element = updateObject(object);
-        mainCanvas.appendChild(objects[objectIndex].element);
-        createCanvasBox(object);
-        updateFilter(object);
-    }
+    loadProject(data);
 }
 
 openProject.addEventListener('click', async () => {
-    homePage.style.display = "none";
-    mainPage.style.display = "block";
+    switchPages(0);
     projectFileListener();
 })
 
@@ -283,3 +297,19 @@ document.addEventListener('keydown', (event) => {
         }
     }
 })
+
+loadLastProject.addEventListener('click', () => {
+    if (localStorage.getItem('previous-data')) {
+        try {
+            switchPages(0);
+
+            let data = openProjectFile(localStorage.getItem('previous-data'));
+
+            loadProject(data);
+        } catch (e) {
+            switchPages(1);
+            console.log(e);
+            localStorage.removeItem('previous-data');
+        }
+    }
+});

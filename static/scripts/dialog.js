@@ -45,7 +45,8 @@ function switchPages(direction = 0) {
         pageKeyframes,
         {
             duration: dialogTiming,
-            direction: "reverse"
+            direction: "reverse",
+            fill: "forwards"
         }
     )
     page2.style.display = "block";
