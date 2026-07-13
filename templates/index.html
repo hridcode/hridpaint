@@ -94,6 +94,8 @@
             <input id="fill" type="checkbox">
             <p id="sides-label">Sides:</p>
             <input id="sides" type="number" value="4" min="3" step="1">
+            <p id="control-points-label">Control points:</p>
+            <input id="control-points" type="number" value="1" min="1" step="1">
             <p id="opacity-label">Opacity:</p>
             <input id="opacity" type="number" value="1" min="0" step="0.01"></input>
             <p id="rect-x-label">Radius X:</p>
@@ -118,7 +120,8 @@
             <button id="polygon-free">P<sup>F</sup></button>
             <button id="quadratic-curve">C<sup>2</sup></button>
             <button id="cubic-curve">C<sup>3</sup></button>
-            <button id="text">Tx</button>
+            <button id="variable-curve">C<sup>N</sup></button>
+            <button id="text" class="unfinished">Tx</button>
             <input id="primcol" type="color">
             <button id="switch">Sw</button>
             <input id="scncol" type="color"> 
@@ -219,8 +222,8 @@
             <p id="zoom-percentage"></p>
             <button id="zoom-plus">+</button>
         </div>
-        <div id="color-dialog" class="dialog-box">
-            <div class="dialog-top-bar">
+        <div id="color-dialog" style="display: none;" class="dialog-box">
+            <div class="dialog-top-bar" id="color-dialog-top-bar">
                 <h4>Color picker</h4>
                 <button class="close">&times;</button>           
             </div>
@@ -231,42 +234,58 @@
             </div>
             <div class="dialog-tabs">
                 <div class="dialog-main-content dialog-tab" id="rgb-tab">
-                    <div>
+                    <div class="color-slider-container">
                         <label>R</label>
-                        <div id="r-slider" class="slider">
-                            <div class="slider-grab"></div>
-                        </div>
+                        <input id="r-slider" class="color-slider" type="range" min="0" max="255" step="1" value="0">
+                        <input id="r-input" class="slider-input" type="number" value="0" max="255" min="0">
                     </div>
-                    <div>
+                    <div class="color-slider-container">
                         <label>G</label>
-                        <div id="g-slider" class="slider">
-                            <div class="slider-grab"></div>
-                        </div>
+                        <input id="g-slider" class="color-slider" type="range" min="0" max="255" step="1" value="0">
+                        <input id="g-input" class="slider-input" type="number" value="0" max="255" min="0">
                     </div>
-                    <div>
+                    <div class="color-slider-container">
                         <label>B</label>
-                        <div id="b-slider" class="slider">
-                            <div class="slider-grab"></div>
-                        </div>
+                        <input id="b-slider" class="color-slider" type="range" min="0" max="255" step="1" value="0">
+                        <input id="b-input" class="slider-input" type="number" value="0" max="255" min="0">
                     </div>
                 </div>   
                 <div class="dialog-main-content dialog-tab" id="hsv-tab" style="display: none;">
-                    <div>
+                    <div class="color-slider-container">
                         <label>H</label>
-                        <div id="hue-slider" class="slider">
-                            <div class="slider-grab"></div>
-                        </div>
+                        <input id="h-slider" class="color-slider" type="range" min="0" max="360" step="1" value="0">
+                        <input id="h-input" class="slider-input" type="number" value="0" max="360" min="0">
                     </div>
-                    <div>
+                    <div class="color-slider-container">
                         <label>S</label>
-                        <div id="saturation-slider" class="slider">
-                            <div class="slider-grab"></div>
-                        </div>
+                        <input id="s-slider" class="color-slider" type="range" min="0" max="1" step="0.01" value="0">
+                        <input id="s-input" class="slider-input" type="number" value="0" max="1" min="0" step="0.01">
+                    </div>
+                    <div class="color-slider-container">
+                        <label>V</label>
+                        <input id="v-slider" class="color-slider" type="range" min="0" max="1" step="0.01" value="0">
+                        <input id="v-input" class="slider-input" type="number" value="0" max="1" min="0" step="0.01">
+                    </div>
+                </div>
+                <div class="dialog-main-content dialog-tab unfinished" id="gradient-tab" style="display: none;">
+                    <div>
+                        <label>Type</label>
+                        <select id="gradient-type">
+                            <option name="linear">Linear</option>
+                            <option name="radial">Radial</option>
+                            <option name="conic">Conic</option>
+                        </select>
                     </div>
                     <div>
-                        <label>V</label>
-                        <div id="value-slider" class="slider">
-                            <div class="slider-grab"></div>
+                        <label>Angle</label>
+                        <input id="gradient-angle" type="number" value="0" min="0" max="360">
+                    </div>
+                    <div>
+                        <strong style="margin: auto;">Stops</strong>
+                    </div>
+                    <div>
+                        <div id="gradient-stops">
+                            
                         </div>
                     </div>
                 </div>
@@ -274,6 +293,7 @@
                 <button id="color-action" class="dialog-end-button">Confirm</button>                
             </div>
         </div>
+
         <div id="object-style-dialog" class="dialog-box">
             <div class="dialog-top-bar">
                 <h4>Object style</h4>

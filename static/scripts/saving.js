@@ -55,6 +55,10 @@ function projectFormat(description = "") {
             objectBlock += `- iu$ ${object.dimensions[0]} ${object.dimensions[1]} ${object.url}`
         }
 
+        if (object.type === "variable-curve") {
+            objectBlock += `- dg$ ${object.degree}`;
+        }
+
         for (let effect in object.filter) {
             let effectLine = `- e$${effect} `;
 
@@ -147,6 +151,9 @@ function openProjectFile(content) {
                 case "iu":
                     currObj.url = params[0];
                     currObj.dimensions = [+params[1], +params[2]];
+                    break;
+                case "dg":
+                    currObj.degree = +params[0];
                     break;
                 default:
                     break;

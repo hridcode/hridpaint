@@ -156,10 +156,17 @@ addTooltip(modeTriangleIsosceles, "Isosceles triangle (I)");
 addTooltip(modePolygonFree, "Polygon (X)");
 addTooltip(modeQuadraticCurve, "Quadratic curve (Q)");
 addTooltip(modeCubicCurve, "Cubic curve (V)");
-addTooltip(modeText, "Text (T)");
+//addTooltip(modeText, "Text (T)");
 addTooltip(primCol, "Primary color");
 addTooltip(switchCol, "Switch color (2)");
 addTooltip(scnCol, "Secondary color");
+
+addTooltip(objectDataCollapse, "View object data");
+
+let inactiveElements = document.querySelectorAll('.unfinished');
+inactiveElements.forEach(el => {
+    addTooltip(el, "Work in progress");
+})
 
 let contextMenu;
 

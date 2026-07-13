@@ -86,6 +86,7 @@ function updateInteractionBar() {
     sides.style.display = "none";
     fontSize.style.display = "none";
     opacity.style.display = "none";
+    controlPoints.style.display = "none";
 
     strokeLabel.style.display = "none";
     fillLabel.style.display = "none";
@@ -106,6 +107,8 @@ function updateInteractionBar() {
     radiusXLabel.style.display = "none";
     radiusYLabel.style.display = "none";
 
+    controlPointsLabel.style.display = "none";
+
     if (currentMode !== "none") {
         stroke.style.display = "";
         fill.style.display = "";
@@ -123,7 +126,7 @@ function updateInteractionBar() {
         }
     }
 
-    if (currentMode === "polygon-free") {
+    if (currentMode === "polygon-free" && !selectedObjects) {
         sides.style.display = "";
         sidesLabel.style.display = "";
 
@@ -150,6 +153,11 @@ function updateInteractionBar() {
 
         radiusXLabel.style.display = "";
         radiusYLabel.style.display = "";
+    }
+
+    if (currentMode === "variable-curve") {
+        controlPoints.style.display = "";
+        controlPointsLabel.style.display = "";
     }
 }
 

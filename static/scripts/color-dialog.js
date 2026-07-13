@@ -1,15 +1,24 @@
-const hueSlider = document.getElementById('hue-slider');
-const saturationSlider = document.getElementById('saturation-slider');
-const valueSlider = document.getElementById('value-slider');
+const hSlider = document.getElementById('h-slider');
+const sSlider = document.getElementById('s-slider');
+const vSlider = document.getElementById('v-slider');
+const hInput = document.getElementById('h-input');
+const sInput = document.getElementById('s-input');
+const vInput = document.getElementById('v-input');
 
 const rSlider = document.getElementById('r-slider');
 const gSlider = document.getElementById('g-slider');
 const bSlider = document.getElementById('b-slider');
+const rInput = document.getElementById('r-input');
+const gInput = document.getElementById('g-input');
+const bInput = document.getElementById('b-input');
 
 const colorResult = document.getElementById('color-result');
 
 const hsvTab = document.getElementById('hsv-tab');
 const rgbTab = document.getElementById('rgb-tab');
+const gradientTab = document.getElementById('gradient-tab');
+
+const colorDialogTopBar = document.getElementById('color-dialog-top-bar');
 
 const colorTabs = {
     rgb: {
@@ -19,7 +28,11 @@ const colorTabs = {
     hsv: {
         element: document.getElementById('hsv-select'),
         tab: hsvTab
-    }
+    },
+    // gradient: {
+    //     element: document.getElementById('gradient-select'),
+    //     tab: gradientTab
+    // }
 };
 
 let currentColorTab = "rgb";
@@ -67,83 +80,37 @@ function HSVtoRGB(h, s, v) {
     ]
 }
 
-class Slider {
-    constructor(parent) {
-        this.parent = parent;
-        this.sliderGrab = parent.querySelector('.slider-grab');
+function linkRangeInput(range, input) {
+    range.addEventListener('input', () => {
+        input.value = range.value; 
+    })
 
-        this.parentRect = this.parent.getBoundingClientRect();
-        this.sliderGrabRect = this.sliderGrab.getBoundingClientRect();
-
-        this.value = 0;
-        this.moving = false;
-
-        this.sliderGrab.addEventListener('mousedown', (event) => {
-            this.moving = true;
-        })
-        
-        document.addEventListener('mousemove', (event) => {
-            if (!this.moving) return;
-
-            let offset = (event.clientX - this.parentRect.left) - (this.sliderGrabRect.width / 2);
-
-            offset = Math.max(
-                0,
-                Math.min(offset, this.parentRect.width - this.sliderGrabRect.width)
-            );
-
-            this.sliderGrab.style.transform = `translateX(${offset}px)`;
-            this.update();
-        })
-        
-        document.addEventListener('mouseup', (event) => {
-            this.moving = false;
-        })
-    }
-
-    update() {
-        this.parentRect = this.parent.getBoundingClientRect();
-        this.sliderGrabRect = this.sliderGrab.getBoundingClientRect();
-
-        let sliderWidth = this.parentRect.width - this.sliderGrabRect.width;
-        this.value = Math.abs(this.parentRect.x - this.sliderGrabRect.x) / sliderWidth;
-        this.value = Math.min(1, this.value);
-        this.value = +this.value.toFixed(3);
-        this.change();
-    }
-
-    setValue(value) {
-        this.value = Math.min(0, Math.max(1, value));
-        this.update();
-    }
-
-    change() {}
+    input.addEventListener('input', () => {
+        range.value = input.value; 
+    })
 }
 
-let hueSliderObject = new Slider(hueSlider);
-let saturationSliderObject = new Slider(saturationSlider);
-let valueSliderObject = new Slider(valueSlider);
-
-let rSliderObject = new Slider(rSlider);
-let gSliderObject = new Slider(gSlider);
-let bSliderObject = new Slider(bSlider);
-
-function updateColorResultHSV() {
-    let color = HSVtoRGB(hueSliderObject.value, saturationSliderObject.value, valueSliderObject.value);
-    colorResult.style.backgroundColor = `rgb(${color.join(", ")})`;    
+function linkInputsBar(mode, ...inputs) {
+    for (let input of inputs) {
+        if (mode === "rgb") {
+            input.addEventListener('input', () => {
+                colorDialogTopBar.style.backgroundColor = `rgb(${rSlider.value}, ${gSlider.value}, ${bSlider.value})`;
+            })
+        } else if (mode === "hsv") {
+            input.addEventListener('input', () => {
+                let hsvColor = HSVtoRGB(hSlider.value / 360, sSlider.value, vSlider.value);
+                colorDialogTopBar.style.backgroundColor = `rgb(${hsvColor.join(", ")})`;
+            })
+        }
+    }
 }
 
-function updateColorResultRGB() {
-    let color = [rSliderObject.value * 255, gSliderObject.value * 255, bSliderObject.value * 255];
-    colorResult.style.backgroundColor = `rgb(${color.join(", ")})`;    
-}
+linkRangeInput(rSlider, rInput);
+linkRangeInput(gSlider, gInput);
+linkRangeInput(bSlider, bInput);
+linkRangeInput(hSlider, hInput);
+linkRangeInput(sSlider, sInput);
+linkRangeInput(vSlider, vInput);
 
-hueSliderObject.change = updateColorResultHSV;
-saturationSliderObject.change = updateColorResultHSV;
-valueSliderObject.change = updateColorResultHSV;
-
-rSliderObject.change = updateColorResultRGB;
-gSliderObject.change = updateColorResultRGB;
-bSliderObject.change = updateColorResultRGB;
-
-updateColorResultHSV();
+linkInputsBar("rgb", rSlider, gSlider, bSlider, rInput, gInput, bInput);
+linkInputsBar("hsv", hSlider, sSlider, vSlider, hInput, sInput, vInput);

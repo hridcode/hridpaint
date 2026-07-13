@@ -13,12 +13,23 @@ function updateObject(obj, downX = null, downY = null, upX = null, upY = null) {
         case "line":
             element = element || createSVGElement('line');    
 
-            // console.log(obj.points, upX, upY)
+            let xPoints = [downX, upX];
+            let yPoints = [downY, upY];
 
-            element.setAttribute('x1', downX === null ? obj.points[0][0] : downX);
-            element.setAttribute('y1', downY === null ? obj.points[0][1]: downY);
-            element.setAttribute('x2', upX === null ? obj.points[1][0] : upX);
-            element.setAttribute('y2', upY === null ? obj.points[1][1] : upY);
+            if (obj.points.length >= 1) {
+                xPoints[0] = obj.points[0][0];
+                yPoints[0] = obj.points[0][1];
+            }
+
+            if (obj.points.length === 2) {
+                xPoints[1] = obj.points[1][0];
+                yPoints[1] = obj.points[1][1];
+            }
+
+            element.setAttribute('x1', xPoints[0]);
+            element.setAttribute('y1', yPoints[0]);
+            element.setAttribute('x2', xPoints[1]);
+            element.setAttribute('y2', yPoints[1]);
 
             element.setAttribute('stroke', obj.strokeColor);
             element.setAttribute('stroke-width', obj.strokeWidth);            
@@ -108,6 +119,30 @@ function updateObject(obj, downX = null, downY = null, upX = null, upY = null) {
             element.setAttribute('fill', obj.fillColor || "none");
 
             break;
+        case "variable-curve":
+            element = element || createSVGElement('path');
+
+            console.log(obj.points.length, obj.degree)
+
+            if (obj.points.length === 0) {
+                d = `M ${downX} ${downY}`;
+            } else if (obj.points.length === 1) {
+                d = `M ${obj.points[0].join(" ")} L ${upX} ${upY}`;
+            } else if (obj.points.length === 2) {
+                d = `M ${obj.points[0].join(" ")} Q ${obj.points[1].join(" ")}, ${upX} ${upY}`;
+            } else if (obj.points.length < obj.degree + 2) {
+                d = `M ${obj.points[0].join(" ")} Q ${obj.points[1].join(" ")}, ${obj.points[2].join(" ")} ${obj.points.slice(3).map(x => `T ${x.join(" ")}`).join(" ")} T ${upX} ${upY}`;        
+            } else {
+                d = `M ${obj.points[0].join(" ")} Q ${obj.points[1].join(" ")}, ${obj.points[2].join(" ")} ${obj.points.slice(3).map(x => `T ${x.join(" ")}`).join(" ")}`;            
+            }
+
+            element.setAttribute('d', d);
+
+            element.setAttribute('stroke', obj.strokeColor);
+            element.setAttribute('stroke-width', obj.strokeWidth);            
+            element.setAttribute('fill', obj.fillColor || "none");
+
+            break;
         case "triangle-isosceles":
             element = element || createSVGElement('polygon');
 
@@ -166,7 +201,7 @@ function updateObject(obj, downX = null, downY = null, upX = null, upY = null) {
 }
 
 function isModeFree(mode) {
-    return ["polygon-free", "triangle-scalene", "quadratic-curve", "cubic-curve", "line"].includes(mode);
+    return ["polygon-free", "triangle-scalene", "quadratic-curve", "cubic-curve", "variable-curve", "line"].includes(mode);
 }
 
 let polyModeMax = {
@@ -200,6 +235,7 @@ document.addEventListener('click', (event) => {
     } else {
         if (isModeFree(mode)) {
             polyModeMax["polygon-free"] = +sides.value;
+            polyModeMax["variable-curve"] = +controlPoints.value + 2;
             polyPoints.push([clickX, clickY]);
             if (polyPoints.length === polyModeMax[mode]) finish();
         } else {
@@ -253,6 +289,10 @@ document.addEventListener('mousemove', (event) => {
     if (mode === "rect") {
         tempObj.radiusX = radiusX.value;
         tempObj.radiusY = radiusY.value;
+    }
+
+    if (mode === "variable-curve") {
+        tempObj.degree = +controlPoints.value;
     }
 
     let element = updateObject(tempObj, downX, downY, upX, upY);
@@ -404,6 +444,10 @@ function finish() {
         newItemProperties.zIndex = objects.filter(x => x).length;
 
         newItemProperties.element = updateObject(newItemProperties);
+
+        if (mode === "variable-curve") {
+            newItemProperties.degree = +controlPoints.value;
+        }
 
         newItemProperties.filter = {}
 

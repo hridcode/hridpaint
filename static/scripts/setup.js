@@ -58,8 +58,9 @@ const modeTriangleIsosceles = document.getElementById('triangle-isosceles');
 const modePolygonFree = document.getElementById('polygon-free');
 const modeQuadraticCurve = document.getElementById('quadratic-curve');
 const modeCubicCurve = document.getElementById('cubic-curve');
+const modeVariableCurve = document.getElementById('variable-curve');
 const modeText = document.getElementById('text');
-const modes = [modeLine, modeRect, modeEllipse, modeTriangleScalene, modeTriangleIsosceles, modePolygonFree, modeQuadraticCurve, modeCubicCurve, modeText];
+const modes = [modeLine, modeRect, modeEllipse, modeTriangleScalene, modeTriangleIsosceles, modePolygonFree, modeQuadraticCurve, modeCubicCurve, modeVariableCurve];//, modeText];
 
 const objectDataBox = document.getElementById('object-data');
 const objectDataContent = document.getElementById('object-data-content');
@@ -76,6 +77,7 @@ const fontSize = document.getElementById('font-size');
 const radiusX = document.getElementById('rect-x');
 const radiusY = document.getElementById('rect-y');
 const opacity = document.getElementById('opacity');
+const controlPoints = document.getElementById('control-points');
 
 const strokeLabel = document.getElementById('stroke-label');
 const fillLabel = document.getElementById('fill-label');
@@ -84,6 +86,7 @@ const fontSizeLabel = document.getElementById('font-size-label');
 const radiusXLabel = document.getElementById('rect-x-label');
 const radiusYLabel = document.getElementById('rect-y-label');
 const opacityLabel = document.getElementById('opacity-label');
+const controlPointsLabel = document.getElementById('control-points-label');
 
 let canvasDragging = false;
 let canvasDragOffset;

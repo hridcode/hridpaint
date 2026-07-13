@@ -64,11 +64,8 @@ function selectBarMouseupListener(event) {
     dragging = false;
 
     let newOrder = Array.from(selectList.children).map(x => +x.querySelector('.object-name-index').textContent).reverse();
-
-    console.log(newOrder);
     
     objects.filter(Boolean).forEach((obj, i) => {
-        console.log(obj.index, newOrder[i]);
         obj.zIndex = newOrder[i];
     });
 

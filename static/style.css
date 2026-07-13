@@ -334,6 +334,10 @@ button.mode-active:hover {
     border-radius: 50%;
 }
 
+.object-name-drag-ball:active {
+    cursor: grabbing;
+}
+
 .object-name-container.dragging {
     background-color: var(--accent-color);
 }
@@ -526,84 +530,76 @@ button.mode-active:hover {
     margin: 15px 0;
 }
 
-.dialog-box .slider {
-    width: 85%;
-    height: 10px;
-    align-self: center;
-    border: 2px solid var(--border-color);
-    margin: 0;
-}
-
-.slider-grab {
-    width: 10px;
-    height: 10px;
-    box-sizing: border-box;
-    background-color: ghostwhite;
-    cursor: grab;
-}
-
 #color-dialog {
-    width: 25%;
+    width: 40%;
 }
 
-#hue-slider {
-    background: linear-gradient(
-        to right,
-        hsl(0,100%,50%),
-        hsl(60,100%,50%),
-        hsl(120,100%,50%),
-        hsl(180,100%,50%),
-        hsl(240,100%,50%),
-        hsl(300,100%,50%),
-        hsl(360,100%,50%)
-    );
-}
-
-#saturation-slider {
-    background: linear-gradient(
-        to right,
-        white,
-        transparent
-    );
+.color-slider {
+    -webkit-appearance: none;
+    border-radius: 50px;
+    flex: 1;
 }
 
 #r-slider {
-    background: linear-gradient(
-        to right,
-        black,
-        red
-    );
+    background: linear-gradient(to right, black, red);
 }
 
 #g-slider {
-    background: linear-gradient(
-        to right,
-        black,
-        rgb(0, 255, 0)
-    );
+    background: linear-gradient(to right, black, rgb(0, 255, 0));
 }
 
 #b-slider {
+    background: linear-gradient(to right, black, blue);
+}
+
+#h-slider {
     background: linear-gradient(
         to right,
-        black,
-        blue
+        hsl(0, 100%, 50%),
+        hsl(60, 100%, 50%),
+        hsl(120, 100%, 50%),
+        hsl(180, 100%, 50%),
+        hsl(240, 100%, 50%),
+        hsl(300, 100%, 50%),
+        hsl(360, 100%, 50%)
     );
 }
 
-#value-slider {
-    background: linear-gradient(
-        to right,
-        black,
-        transparent
-    );
+#s-slider {
+    background: white;
 }
 
-#color-result {
-    margin: auto;
-    width: 20%;
-    height: 25px;
-    border: 3px solid var(--border-color);
+#v-slider {
+    background-color: black;
+}
+
+.color-slider-container {
+    gap: 10px;
+}
+
+.color-slider-container > :last-child {
+    border: blue;
+    margin: 0 !important; 
+}
+
+.slider-input {
+    width: 40px;
+    background-color: transparent !important;
+    text-align: right;
+}
+
+.slider-input:focus {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.slider-input:invalid {
+    border-bottom: 1px solid red;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .dialog-tab-select {
@@ -854,7 +850,17 @@ button.mode-active:hover {
     opacity: 0.6;
 }
 
+.unfinished {
+    color: var(--accent-color) !important;
+}
 
+.unfinished > .tooltip {
+    color: var(--text-color) !important;
+}
+
+.unfinished:hover {
+    background-color: var(--background-color) !important;
+}
 
 #alignment-canvas {
     z-index: 4;
