@@ -267,8 +267,8 @@ document.addEventListener('mousemove', (event) => {
     let tempObj = {};
 
     tempObj.bBox = [minX, minY, width, height];
-    tempObj.fillColor = fill.checked ? scnCol.value : null;
-    tempObj.strokeColor = primCol.value;
+    tempObj.fillColor = fill.checked ? secondaryColor : null;
+    tempObj.strokeColor = primaryColor;
     tempObj.strokeWidth = stroke.value;
     tempObj.opacity = opacity.value;
     tempObj.type = mode;
@@ -423,9 +423,9 @@ function finish() {
         }
 
         newItemProperties.strokeWidth = stroke.value;
-        newItemProperties.strokeColor = primCol.value;
+        newItemProperties.strokeColor = primaryColor;
 
-        newItemProperties.fillColor = fill.checked ? scnCol.value : null;
+        newItemProperties.fillColor = fill.checked ? secondaryColor : null;
         newItemProperties.opacity = opacity.value;
 
         if (mode === "text") {

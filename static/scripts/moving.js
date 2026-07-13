@@ -64,7 +64,7 @@ function canvasBoxMousemove(event) {
 
         for (let otherObject of objects) {
             if (otherObject === null) continue;
-            if (object.index === otherObject.index || !inLoop) continue;
+            if (object.index === otherObject.index || selectedObjects.map(x => x.index).indexOf(otherObject.index) >= 0 || !inLoop) continue;
 
             let otherCenterX = otherObject.bBox[0] + otherObject.bBox[2] / 2;
             let otherCenterY = otherObject.bBox[1] + otherObject.bBox[3] / 2;

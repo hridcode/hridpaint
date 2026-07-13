@@ -18,7 +18,12 @@ const hsvTab = document.getElementById('hsv-tab');
 const rgbTab = document.getElementById('rgb-tab');
 const gradientTab = document.getElementById('gradient-tab');
 
+const colorDialog = document.getElementById('color-dialog');
+const colorDialogConfirm = document.getElementById('color-action');
 const colorDialogTopBar = document.getElementById('color-dialog-top-bar');
+
+let primaryColor = "rgb(0, 0, 0)";
+let secondaryColor = "rgb(0, 0, 0)";
 
 const colorTabs = {
     rgb: {
@@ -114,3 +119,35 @@ linkRangeInput(vSlider, vInput);
 
 linkInputsBar("rgb", rSlider, gSlider, bSlider, rInput, gInput, bInput);
 linkInputsBar("hsv", hSlider, sSlider, vSlider, hInput, sInput, vInput);
+
+let colorActivated;
+
+primCol.addEventListener('click', () => {
+    colorActivated = 0;
+    colorDialogTopBar.style.backgroundColor = primaryColor;
+    showDialog(colorDialog);
+})
+
+scnCol.addEventListener('click', () => {
+    colorActivated = 1;
+    colorDialogTopBar.style.backgroundColor = secondaryColor;
+    showDialog(colorDialog);
+})
+
+colorDialogConfirm.addEventListener('click', () => {
+    if (colorActivated === 0) {
+        primaryColor = colorDialogTopBar.style.backgroundColor;
+    } else {
+        secondaryColor = colorDialogTopBar.style.backgroundColor;
+    }
+
+    closeDialog(colorDialog);
+    updateColorButtons();
+})
+
+function updateColorButtons() {
+    primCol.style.backgroundColor = primaryColor;
+    scnCol.style.backgroundColor = secondaryColor;
+}
+
+updateColorButtons();
