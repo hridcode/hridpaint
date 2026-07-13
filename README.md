@@ -1,18 +1,18 @@
 # hridPaint
 
-hridPaint is an open-source vector graphic and photo editor. It is very minimalistic and easy to use, but has a surprising amount of power packed in. 
+hridPaint is an open-source vector graphic and photo editor. It is very minimalistic and easy to use, but has a surprising amount of power packed in. No more using MS Paint!
 
 ## Features
 
 - Shapes (rectangles, triangles, polygons, ellipses, lines, quadratic & cubic curves)
 - Images
 - Fill/stroke color and width
-- Text
 - Canvas zoom
 - Adjustable canvas size
 - PNG, JPEG, WEBP, SVG export
 - Project file export
 - Alignment/distribution tools
+- Object reordering
 - Effects (Blur, shadow, lighting, filters, adjustments, etc.)
 
 ## Notes
