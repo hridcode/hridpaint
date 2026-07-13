@@ -73,13 +73,12 @@ document.addEventListener('keydown', (event) => {
             object.element.remove();
             object.canvasBox.remove();
 
-            unselectAll();
-
             createTimelineEntry([object,], "delete", object, null);
 
             objects[index] = null;
-            updateSelectBar();
         }
+        unselectAll();
+        updateSelectBar();
     } else if (event.key === "Escape") {
         if (canvasActivated) {
             canvasActivated = false;
