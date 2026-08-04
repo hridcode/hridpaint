@@ -15,6 +15,8 @@ hridPaint is an open-source vector graphic and photo editor. It is very minimali
 - Object reordering
 - Effects (Blur, shadow, lighting, filters, adjustments, etc.)
 
+![hridPaint demo](hridpaint.png)
+
 ## Notes
 
 Since this is a vector editor, there is no pixel and fill support.
