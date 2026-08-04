@@ -18,5 +18,6 @@ hridPaint is an open-source vector graphic and photo editor. It is very minimali
 ## Notes
 
 Since this is a vector editor, there is no pixel and fill support.
+To set up for local development, install Flask on Python and run app.py for a local server. You can also use the Live Server extension on VS Code, and navigate to `/templates/index.html` for an auto-reloading frontend server.
 
 Made with <3 by Hridhaan Shetty
